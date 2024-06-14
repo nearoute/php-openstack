@@ -9,16 +9,12 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
 $group = $identity->getGroup('{groupId}');
 
 foreach ($group->listUsers() as $user) {
+    /** @var $user \OpenStack\Identity\v3\Models\User */
 }

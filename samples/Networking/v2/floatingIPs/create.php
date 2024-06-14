@@ -12,10 +12,9 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$networking = $openstack->networkingV2ExtLayer3();
+$networking = $openstack->networkingV2();
 
-/** @var \OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp $ip */
-$ip = $networking->createFloatingIp([
+$floatingIp = $networking->createFloatingIp([
     "floatingNetworkId" => "{networkId}",
     "portId"            => "{portId}",
     'fixedIpAddress'    => '{fixedIpAddress}',

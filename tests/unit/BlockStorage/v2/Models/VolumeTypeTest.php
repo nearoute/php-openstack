@@ -10,7 +10,7 @@ use OpenStack\Test\TestCase;
 class VolumeTypeTest extends TestCase
 {
     /** @var VolumeType */
-    private $volumeType;
+    protected $volumeType;
 
     public function setUp(): void
     {
@@ -26,7 +26,7 @@ class VolumeTypeTest extends TestCase
     {
         $expectedJson = ['volume_type' => ['name' => 'foo']];
 
-        $this->setupMock('PUT', 'types/1', $expectedJson, [], 'GET_type');
+        $this->mockRequest('PUT', 'types/1', 'GET_type', $expectedJson, []);
 
         $this->volumeType->name = 'foo';
         $this->volumeType->update();
@@ -34,7 +34,7 @@ class VolumeTypeTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'types/1', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'types/1', new Response(204), null, []);
 
         $this->volumeType->delete();
     }

@@ -41,7 +41,7 @@ class ObjectTest extends TestCase
 
         $content = json_encode(['foo' => 'bar']);
 
-        $this->setupMock('PUT', self::CONTAINER . '/' . $objectName, $content, $headers, 'Created');
+        $this->mockRequest('PUT', self::CONTAINER . '/' . $objectName, 'Created', $content, $headers);
 
         $this->object->create([
             'name'               => $objectName,
@@ -56,7 +56,7 @@ class ObjectTest extends TestCase
 
     public function test_Retrieve()
     {
-        $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
+        $this->mockRequest('HEAD', self::CONTAINER . '/' . self::NAME, 'HEAD_Object', null, []);
 
         $this->object->retrieve();
         self::assertNotEmpty($this->object->metadata);
@@ -64,25 +64,29 @@ class ObjectTest extends TestCase
 
     public function test_Get_Metadata()
     {
-        $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
+        $this->mockRequest('HEAD', self::CONTAINER . '/' . self::NAME, 'HEAD_Object', null, []);
 
         self::assertEquals([
             'Book'         => 'GoodbyeColumbus',
             'Manufacturer' => 'Acme',
+            'UPPERCASE'    => 'UPPERCASE',
+            'lowercase'    => 'lowercase',
         ], $this->object->getMetadata());
     }
 
     public function test_Merge_Metadata()
     {
-        $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
+        $this->mockRequest('HEAD', self::CONTAINER . '/' . self::NAME, 'HEAD_Object', null, []);
 
         $headers = [
             'X-Object-Meta-Author'       => 'foo',
             'X-Object-Meta-Book'         => 'GoodbyeColumbus',
             'X-Object-Meta-Manufacturer' => 'Acme',
+            'X-Object-Meta-UPPERCASE'    => 'UPPERCASE',
+            'X-Object-Meta-lowercase'    => 'lowercase',
         ];
 
-        $this->setupMock('POST', self::CONTAINER . '/' . self::NAME, null, $headers, 'NoContent');
+        $this->mockRequest('POST', self::CONTAINER . '/' . self::NAME, 'NoContent', null, $headers);
 
         $this->object->mergeMetadata(['Author' => 'foo']);
     }
@@ -91,20 +95,20 @@ class ObjectTest extends TestCase
     {
         $headers = ['X-Object-Meta-Bar' => 'Foo'];
 
-        $this->setupMock('POST', self::CONTAINER . '/' . self::NAME, null, $headers, 'NoContent');
+        $this->mockRequest('POST', self::CONTAINER . '/' . self::NAME, 'NoContent', null, $headers);
 
         $this->object->resetMetadata(['Bar' => 'Foo']);
     }
 
     public function test_It_Deletes()
     {
-        $this->setupMock('DELETE', self::CONTAINER . '/' . self::NAME, null, [], 'NoContent');
+        $this->mockRequest('DELETE', self::CONTAINER . '/' . self::NAME, 'NoContent', null, []);
         $this->object->delete();
     }
 
     public function test_It_Downloads()
     {
-        $this->setupMock('GET', self::CONTAINER . '/' . self::NAME, null, [], 'GET_Object');
+        $this->mockRequest('GET', self::CONTAINER . '/' . self::NAME, 'GET_Object', null, []);
 
         $stream = $this->object->download();
 
@@ -117,10 +121,10 @@ class ObjectTest extends TestCase
         $path = self::CONTAINER . '/' . self::NAME;
         $headers = ['Destination' => 'foo/bar'];
 
-        $this->setupMock('COPY', $path, null, $headers, 'Created');
+        $this->mockRequest('COPY', $path, 'Created', null, $headers);
 
         $this->object->copy([
-            'destination' => $headers['Destination']
+            'destination' => $headers['Destination'],
         ]);
     }
 

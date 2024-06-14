@@ -7,12 +7,11 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-/** @var bool $exists */
-$exists = $openstack->objectStoreV1()
-                    ->getContainer('{containerName}')
-                    ->objectExists('{objectName}');
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+
+$exists = $container->objectExists('{objectName}');

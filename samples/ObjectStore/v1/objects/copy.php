@@ -7,14 +7,15 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$openstack->objectStoreV1()
-          ->getContainer('{containerName}')
-          ->getObject('{objectName}')
-          ->copy([
-              'destination' => '{newContainerName}/{newObjectName}'
-          ]);
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+$object = $container->getObject('{objectName}');
+
+$object->copy([
+    'destination' => '{newContainerName}/{newObjectName}',
+]);
+

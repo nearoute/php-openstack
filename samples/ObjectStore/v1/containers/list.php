@@ -9,11 +9,10 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
 $service = $openstack->objectStoreV1();
 
 foreach ($service->listContainers() as $container) {
-    /** @var $container \OpenStack\ObjectStore\v1\Models\Container */
+    /** @var \OpenStack\ObjectStore\v1\Models\Container $container */
 }
