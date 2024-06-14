@@ -297,5 +297,4 @@ TYPEOTHER
                 'backup. The volume is created in same availability zone and with same size as the backup.',
         ];
     }
-
 }

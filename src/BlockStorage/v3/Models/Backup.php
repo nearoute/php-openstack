@@ -6,22 +6,14 @@ namespace OpenStack\BlockStorage\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\Deletable;
-use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\HasWaiterTrait;
-use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\Retrievable;
-use OpenStack\Common\Resource\Updateable;
-use OpenStack\Common\Transport\Utils;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents a BlockStorage v3 Quota Set.
  *
  * @property \OpenStack\BlockStorage\v3\Api $api
  */
-
 class Backup extends OperatorResource implements Creatable
 {
     use HasWaiterTrait;
@@ -85,6 +77,7 @@ class Backup extends OperatorResource implements Creatable
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postBackups(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
@@ -102,6 +95,7 @@ class Backup extends OperatorResource implements Creatable
     public function restore(array $userOptions)
     {
         $response = $this->execute($this->api->restoreBackup(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 

@@ -253,8 +253,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'servers/{id}/diagnostics',
             'params' => [
-                'id' => $this->params->urlId('server')
-            ]
+                'id' => $this->params->urlId('server'),
+            ],
         ];
     }
 

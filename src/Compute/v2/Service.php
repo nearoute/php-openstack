@@ -87,10 +87,10 @@ class Service extends AbstractService
     }
 
     /**
-     * Get server diagnostics
+     * Get server diagnostics.
      *
      * @param array $options An array of attributes that will be set on the {@see Server} object. The array keys need to
-     * correspond to the class public properties.
+     *                       correspond to the class public properties.
      *
      * @return \OpenStack\Compute\v2\Models\Server
      */
@@ -98,6 +98,7 @@ class Service extends AbstractService
     {
         $diagnostics = $this->model(Diagnostics::class);
         $diagnostics->populateFromArray($options);
+
         return $diagnostics;
     }
 
